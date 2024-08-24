@@ -39,12 +39,8 @@ void* progress_bar(void *args) {
     int shmid;
     struct dimensions *dm;
 
-   
-    key = ftok("progress_bar.c", 100);
-    if(key<0) {
-        perror("using ftok");
-        exit(1);
-    }
+    // set key value
+    key = (key_t)1234;
 
     shmid = shmget(key, sizeof(struct dimensions), 0666|IPC_CREAT);
     if(shmid<0) {

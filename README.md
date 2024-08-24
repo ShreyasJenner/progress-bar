@@ -1,5 +1,7 @@
 <h1 style="text-align: center;">Progress-Bar</h1>
 
+![](img.webp)
+
 <h3>About the Project</h3>
 An implementation of a progress bar. The progress bar implemented by this project can accurately change its size even if the dimensions of the terminal window running the program changes 
 

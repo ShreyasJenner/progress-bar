@@ -14,12 +14,8 @@ struct dimensions* init(int data_max_val) {
     int shmid;
     struct dimensions *dm;
 
-    // generate a key
-    key = ftok("progress_bar.c", 100);
-    if(key==-1) {
-        perror("using ftok");
-        exit(1);
-    }
+    // set key value
+    key = (key_t)1234;
 
     // get shmid
     shmid = shmget(key, sizeof(struct dimensions), 0666|IPC_CREAT);
