@@ -11,11 +11,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-struct dimensions {
-    int data_cur_val;
-    int data_max_val;
-    int start;
-};
+#include "../headers/struct.h"
+#include "../headers/progress_bar.h"
 
 // global flag to indicate terminal dimension change
 volatile sig_atomic_t flag = 0;
@@ -37,7 +34,39 @@ int map_into_range(int val, int term_width, int data_max) {
 }
 
 // function to draw progress bar in screen
-void progress_bar(struct dimensions *dm) {
+void* progress_bar(void *args) {
+    key_t key;
+    int shmid;
+    struct dimensions *dm;
+
+   
+    key = ftok("progress_bar.c", 100);
+    if(key<0) {
+        perror("using ftok");
+        exit(1);
+    }
+
+    shmid = shmget(key, sizeof(struct dimensions), 0666|IPC_CREAT);
+    if(shmid<0) {
+        perror("Calling shmget");
+        exit(1);
+    }
+
+    // attach shared memory
+    dm = (struct dimensions*)shmat(shmid, NULL, 0);
+    if(dm==(void *)-1) {
+        perror("Attaching shared memory buffer");
+        exit(1);
+    }
+    
+    // set start to 0 to indicate data hasnt started being updated
+    dm->start = 0;
+
+
+    // wait till start is changed to 1
+    while(dm->start==0) {;}
+
+    // print progress bar
     struct winsize ws;
     int term_itr, i;
 
@@ -79,42 +108,6 @@ void progress_bar(struct dimensions *dm) {
         fflush(stdout);
         term_itr++;
     }
-}
-
-int main() {
-    key_t key;
-    int shmid;
-    struct dimensions *dm;
-
-   
-    key = ftok("progress_bar.c", 100);
-    if(key<0) {
-        perror("using ftok");
-        exit(1);
-    }
-
-    shmid = shmget(key, sizeof(struct dimensions), 0666|IPC_CREAT);
-    if(shmid<0) {
-        perror("Calling shmget");
-        exit(1);
-    }
-
-    // attach shared memory
-    dm = (struct dimensions*)shmat(shmid, NULL, 0);
-    if(dm==(void *)-1) {
-        perror("Attaching shared memory buffer");
-        exit(1);
-    }
-    
-    // set start to 0 to indicate data hasnt started being updated
-    dm->start = 0;
-
-
-    // wait till start is changed to 1
-    while(dm->start==0) {;}
-
-    // print progress bar
-    progress_bar(dm);
 
     // detach shared memory 
     shmdt(dm);

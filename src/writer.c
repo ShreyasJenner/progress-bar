@@ -7,16 +7,11 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 
-struct dimensions {
-    int data_cur_val;
-    int data_max_val;
-    // indicates if data has started being updated
-    int start;
-};
+#include "../headers/writer.h"
 
-int main() {
+struct dimensions* init(int data_max_val) {
     key_t key;
-    int shmid, i;
+    int shmid;
     struct dimensions *dm;
 
     // generate a key
@@ -40,22 +35,21 @@ int main() {
         exit(1);
     }
 
-    // write into shared buffer
-    dm->data_cur_val = 0;
-    dm->data_max_val = 125;
-    
+    // modify the data max value
+    dm->data_max_val = data_max_val;
+
+    return dm;
+}
+
+void get_data(struct dimensions *dm, int data_cur_val) {
     // set start to 1 to signal progress bar to start
     dm->start = 1;
+    // modify the data in the shared memory
+    dm->data_cur_val = data_cur_val;
 
-    // modify data in shared memory buffer
-    for(i=0;i<125;i++) {
-        dm->data_cur_val = i;
-        // delay for 100msec
-        usleep(100*1000);
-    }
+}
 
+void finish(struct dimensions *dm) {
     // detach shared memory
     shmdt(dm);
-
-    return 0;
 }
