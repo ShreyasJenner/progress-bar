@@ -6,10 +6,11 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <ncurses.h>
 
-#include "../headers/struct.h"
-#include "../headers/writer.h"
-#include "../headers/progress_bar.h"
+#include "../include/struct.h"
+#include "../include/writer.h"
+#include "../include/progress_bar.h"
 
 int main() {
     int i;
@@ -41,6 +42,8 @@ int main() {
 
     /* Clean the thread resources */
     pthread_join(thread_id, NULL);
+
+    endwin();
 
     return 0;
 }

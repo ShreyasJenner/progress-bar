@@ -7,7 +7,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 
-#include "../headers/writer.h"
+#include "../include/writer.h"
 
 struct dimensions* init(int data_max_val) {
     key_t key;
