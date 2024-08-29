@@ -11,7 +11,6 @@ A sample program is available in the example directory
 
 To use the program, just call the progress bar function with the following parameters:
 
-- address of variable that is initalized with 0
 - current data value
 - the max possible data value 
 
