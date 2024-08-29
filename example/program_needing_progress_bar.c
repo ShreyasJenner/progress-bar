@@ -1,49 +1,36 @@
 /*
- * Program needs to be complied in following format
- * gcc <program_needing_progress_bar.c> src/progress_bar.c src/writer.c -lpthread
+ * Example program to show use of progress bar
  */
 
 #include <unistd.h>
-#include <stdio.h>
 #include <pthread.h>
 #include <ncurses.h>
+#include <locale.h>
 
-#include "../include/struct.h"
-#include "../include/writer.h"
 #include "../include/progress_bar.h"
 
 int main() {
-    int i;
+    int i, term_itr;
     pthread_t thread_id;
 
-    /* Start the progress_bar function in a thread 
-     * This function must be called first
-     */
-    pthread_create(&thread_id, NULL, progress_bar, NULL);
+    setlocale(LC_ALL, "");
+    initscr();
+    noecho();
+    raw();
+    keypad(stdscr, true);
+    nodelay(stdscr, true);
 
-
-    /* Pass the value that indicates completion of the progress bar to the init function 
-     * It returns a pointer to a shared memory segment of the form struct dimensions
-     */
-    struct dimensions *dm = init(125);       /* example max value passed */
-
-
-   
+  
+    term_itr = 0;
     /* Loop that emulates changing data values */
     for(i=0;i<125;i++) {
         /* Pass the current data value to this function */
-        get_data(dm, i);
+        progress_bar(&term_itr, i, 125);
+
         /* Sleep for a few milliseconds to allow the program to read the data from the buffer */
         usleep(20*1000);
     }
 
-    /* Call the finish function to detach the shared memory */
-    finish(dm);
-
-    /* Clean the thread resources */
-    pthread_join(thread_id, NULL);
-
     endwin();
-
     return 0;
 }
