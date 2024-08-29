@@ -14,19 +14,24 @@ int map_into_range(int val, int term_width, int data_max) {
 }
 
 // function to draw progress bar in screen
-void progress_bar(int data_cur_val, int data_max_val) {
+void progress_bar(int data_cur_val, int data_max_val, int resize) {
     int term_width, i, x, y;
 
     // initalize term vars
     i = 0;
     term_width = getmaxx(stdscr);
-
+    
     curs_set(0);
-    clrtoeol();
-    // if term itr is less than mapped value and term max size
-    while(i<=map_into_range(data_cur_val, term_width, data_max_val)) {
+    // clear line and print bar from beginning if terminal has been resizee
+    if(resize) {
+        clrtoeol();
+        // if term itr is less than mapped value and term max size
+        while(i<=map_into_range(data_cur_val, term_width, data_max_val)) {
+            printw("\u2593");
+            i++;
+        }
+    } else {
         printw("\u2593");
-        i++;
     }
     refresh();
     curs_set(1);
