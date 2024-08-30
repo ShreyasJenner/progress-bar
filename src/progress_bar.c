@@ -14,7 +14,7 @@ int map_into_range(int val, int term_width, int data_max) {
 }
 
 // function to draw progress bar in screen
-void progress_bar(int data_cur_val, int data_max_val, int resize) {
+void progress_bar(int data_cur_val, int data_max_val) {
     int term_width, i;
 
     // initalize term vars

@@ -3,6 +3,6 @@
 
 int map_into_range(int val, int term_width, int data_max);
 
-void progress_bar(int data_cur_value, int data_max_value, int resize);
+void progress_bar(int data_cur_value, int data_max_value);
 
 #endif
