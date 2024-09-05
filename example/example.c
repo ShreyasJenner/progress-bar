@@ -17,16 +17,14 @@ int main() {
     noecho();
     raw();
     keypad(stdscr, true);
-    nodelay(stdscr, true);
+    curs_set(0);
 
   
     term_itr = 0;
     // Loop that emulates changing data values
     for(i=0;i<125;i++) {
-        mvprintw(0, 0, "%d\n", i); 
-
         // Pass the current data value to this function
-        progress_bar(i, 125);
+        progress_bar(i, 125, 0);
 
         // Sleep for a few milliseconds to allow the program to read the data from the buffer
         usleep(100*1000);
