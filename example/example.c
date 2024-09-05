@@ -10,7 +10,6 @@
 
 int main() {
     int i;
-    double term_itr;
 
     setlocale(LC_ALL, "");
     initscr();
@@ -18,16 +17,18 @@ int main() {
     raw();
     keypad(stdscr, true);
     curs_set(0);
+    timeout(25);
 
-  
-    term_itr = 0;
-    // Loop that emulates changing data values
+
+    /* Loop to emulates changing data values */
     for(i=0;i<125;i++) {
-        // Pass the current data value to this function
-        progress_bar(i, 125, 0);
+        /* If terminal got resized, call this function */
+        if(getch()==KEY_RESIZE) {
+            reprint_pb(i,125,0);
+        }
 
-        // Sleep for a few milliseconds to allow the program to read the data from the buffer
-        usleep(100*1000);
+        /* Pass the current data value to this function */
+        progress_bar(i, 125, 0);
     }
 
     getch();
