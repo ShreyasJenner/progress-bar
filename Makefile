@@ -1,16 +1,16 @@
 # Compiler and flags
-CC = gcc
-CFLAGS = -Wall -Iinclude
+CC=gcc
+CFLAGS=-Wall -Iinclude
 
 # Directories
-SRCDIR = src
-OBJDIR = obj
-LIBDIR = lib
+SRCDIR=src
+OBJDIR=obj
+LIBDIR=lib
 
 # Files
-SRC = $(wildcard $(SRCDIR)/*.c)
-OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
-LIB = $(LIBDIR)/progressbar.a
+SRC=$(wildcard $(SRCDIR)/*.c)
+OBJ=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+LIB=$(LIBDIR)/progressbar.a
 
 # Rules
 all: $(LIB)
@@ -29,6 +29,7 @@ $(OBJDIR):
 
 clean:
 	rm -rf $(OBJDIR)/*.o
+	rm $(LIB)
 
 .PHONY: all clean
 
