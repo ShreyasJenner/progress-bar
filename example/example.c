@@ -24,11 +24,11 @@ int main() {
     for(i=0;i<125;i++) {
         /* If terminal got resized, call this function */
         if(getch()==KEY_RESIZE) {
-            reprint_pb(i,125,0);
+            reprint_pb(i,125,1);
         }
 
         /* Pass the current data value to this function */
-        progress_bar(i, 125, 0);
+        progress_bar(i, 125, 1);
     }
 
     getch();

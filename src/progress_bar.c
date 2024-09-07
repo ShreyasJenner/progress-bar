@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <ncurses.h>
 
-#include "../include/progress_bar.h"
+#include "progress_bar.h"
 
 
 /*
@@ -28,10 +28,10 @@ int map_into_range(int val, int term_width, int data_max) {
  */
 void progress_bar(int data_cur_val, int data_max_val, int print_y) {
     /* Declaration */
-    int x,y,print_loc;
+    int x,print_loc;
 
-    /* store current position of cursor */
-    getyx(stdscr, y, x);
+    /* store current x-position of cursor */
+    x = getcurx(stdscr);
 
 
     /* print the value */
