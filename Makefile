@@ -10,7 +10,7 @@ LIBDIR=lib
 # Files
 SRC=$(wildcard $(SRCDIR)/*.c)
 OBJ=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
-LIB=$(LIBDIR)/progressbar.a
+LIB=$(LIBDIR)/libprogressbar.a
 
 # Rules
 all: $(LIB)
