@@ -3,7 +3,7 @@
 ![](data/example.webp)
 
 <h3>About the Project</h3>
-An incredibly simple ncurses implementation of a progress bar. The handling of terminal resizing is left up to the user
+An incredibly simple ncurses implementation of a progress bar.
 
 
 <h3>Getting Started</h3>
